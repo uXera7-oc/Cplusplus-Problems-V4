@@ -1,0 +1,183 @@
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+
+short ReadYear()
+{
+    short Year;
+
+    cout << "Please Enter a Year ? ";
+    cin >> Year;
+
+    return Year;
+}
+
+short ReadMonth()
+{
+    short Month;
+    do
+    {
+        cout << "Please Enter a Month ? ";
+        cin >> Month;
+
+    } while (Month <= 0 || Month > 12);
+
+    return Month;
+
+}
+
+short ReadDay()
+{
+    short Day;
+    do
+    {
+        cout << "Please Enter a Day ? ";
+        cin >> Day;
+
+    } while (Day <= 0 || Day > 31);
+
+    return Day;
+
+}
+
+bool CheckLeapYear(short Year)
+{
+    return (Year % 4 == 0 && Year % 100 != 0) || (Year % 400 == 0);
+}
+
+int NumberOfDaysInMonth(short Year, short Month)
+{
+    //Already Covered By do while in ReadMonth()
+    /*if (Month < 1 || Month > 12)
+    {
+        return 0;
+    }*/
+
+    int Days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+    return Month == 2 && CheckLeapYear(Year) ? 29 : Days[Month - 1];
+
+
+
+}
+
+string MonthShortName(short ReadMonth)
+{
+
+    string ArrDays[] = { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+
+    return ArrDays[ReadMonth - 1];
+}
+
+short CalcDayOrder(short Day, short Month, short Year)
+{
+
+
+    short a = (14 - Month) / 12;
+    short y = Year - a;
+    short m = Month + (12 * a) - 2;
+
+
+
+    return (Day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+
+
+}
+
+string DayShortName(short CalculDayOrder)
+{
+
+    string ArrDays[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+    return ArrDays[CalculDayOrder];
+}
+
+short DaysFromTheBeginningOfYear(short Day, short Month, short Year)
+{
+
+
+    short RestOfDays = 0;
+    for (int i = 1; i < Month; i++)
+    {
+        RestOfDays += NumberOfDaysInMonth(Year, i);
+    }
+
+    return  Day + RestOfDays;
+
+}
+
+struct  stDate
+{
+    short Day;
+    short Month;
+    short Year;
+
+};
+
+stDate GetDateFromDayOrderInYear(short DayOrderInYear,short Year)
+{
+    stDate Date; 
+    short RemainingDays = DayOrderInYear;
+    short MonthDays = 0;
+
+    Date.Year = Year;
+    Date.Month = 1;
+
+    while (true)
+    {
+        MonthDays = NumberOfDaysInMonth(Year, Date.Month);
+
+        if (RemainingDays > MonthDays)
+        {
+            RemainingDays -= MonthDays;
+            Date.Month++;
+        }
+        else
+        {
+            Date.Day = RemainingDays;
+            break;
+        }
+
+    }
+    return  Date;
+
+    
+   
+
+}
+
+
+
+int main()
+{
+    short Day = ReadDay();
+    cout << endl;
+    short Month = ReadMonth();
+    cout << endl;
+    short Year = ReadYear();
+    cout << endl;
+    short DaysOrderInYear = DaysFromTheBeginningOfYear(Day, Month, Year);
+
+
+
+    cout << "The Days From The Beginning of the Year : " << DaysOrderInYear << endl;
+
+    stDate Date;
+    Date = GetDateFromDayOrderInYear(DaysOrderInYear, Year);
+    cout << "Darte For [" << DaysOrderInYear << "] is : ";
+    cout << Date.Day << "/" << Date.Month << "/" << Date.Year << endl;
+
+
+
+
+
+
+    system("pause>0");
+
+    return 0;
+}
+
+
