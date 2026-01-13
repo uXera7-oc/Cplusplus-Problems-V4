@@ -39,7 +39,7 @@ However, the code can be compiled using any standard C++ compiler that supports 
 Special thanks to:
 - **Programming Advices**
 - **Professor Abouhodhoud**
-- **Berry** – Thank you for your encouragement and support.
+- **Berry 🍓** – Thank you for your encouragement and support.
 
 ---
 
